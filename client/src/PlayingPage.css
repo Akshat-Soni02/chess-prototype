@@ -1,0 +1,29 @@
+.PlayingPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  /* gap: 3rem; */
+  background-color: rgb(29, 27, 27);
+}
+
+.gameStartButton {
+  /* background-color: transparent; */
+  font-size: 3rem;
+  color: white;
+  background-color: rgb(6, 161, 6);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.gameStartButton:hover {
+  cursor: pointer;
+}
+
+.rightHalf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 100vh;
+}
