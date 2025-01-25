@@ -25,10 +25,10 @@ const PlayingBoard = ({
   const onDrop = async (e, sq) => {
     e.preventDefault();
     console.log(`from ${from} dropped on ${sq}`);
-    // if (!init) {
-    //   console.log("Game not started yet!!");
-    //   return;
-    // }
+    if (!init) {
+      console.log("Game not started yet!!");
+      return;
+    }
     // var res = "";
 
     try {
@@ -49,12 +49,15 @@ const PlayingBoard = ({
         return;
       }
 
+      // const movedChess = new Chess(chess.fen());
+      // setChess(movedChess);
+
       console.log(`${from} to ${sq}`);
 
       // res = chess.move({ from, to: sq });
       console.log("Attempting to update local chess state...");
       setGameBoard(chess.board());
-      console.log(chess.board());
+      // console.log(chess.board());
     } catch (error) {
       // console.log(res);
       console.log("Error from server while dropping piece");

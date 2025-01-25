@@ -18,14 +18,15 @@ const PlayingPage = () => {
 
       switch (message.type) {
         case State.INIT_GAME:
-          setChess(new Chess());
-          setGameBoard(chess.board());
+          // setChess(new Chess());
+          // setGameBoard(chess.board());
           console.log(`Game started your color is ${message.color}`);
-          // setInit(true);
+          setInit(true);
           break;
 
         case State.MOVE:
           console.log(`move came to this color`);
+          console.log(chess.board());
           const move = message.payload.move;
           // const newChess = new Chess(chess.fen());
           // newChess.move(message.payload.move);
@@ -33,14 +34,14 @@ const PlayingPage = () => {
           chess.move(move);
           setGameBoard(chess.board());
           console.log(`Move received from server: ${(move.from, move.to)}`);
-          console.log(chess.board());
+          // console.log(chess.board());
           break;
 
         case State.GAME_OVER:
           setChess(new Chess());
           setGameBoard(chess.board());
           console.log(`${message.payload.winner} has won the game :)`);
-          // setInit(false);
+          setInit(false);
           break;
 
         default:
