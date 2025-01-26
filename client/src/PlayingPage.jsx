@@ -5,6 +5,7 @@ import { Chess } from "chess.js";
 import "./PlayingPage.css";
 import { State } from "./State.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Toaster, toast } from "react-hot-toast";
 
 const PlayingPage = () => {
   const socket = useSocket();
@@ -14,6 +15,7 @@ const PlayingPage = () => {
   const [turn, setTurn] = useState(false);
   const [startButton, setStartButton] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
+  const [color, setColor] = useState(null);
 
   useEffect(() => {
     if (!socket) return;
@@ -29,6 +31,9 @@ const PlayingPage = () => {
           setInit(true);
           setStartButton(false);
           setIsClicked(false);
+          toast.success(`Game started your color is ${message.color}`);
+          setColor(message.color);
+          console.log(color);
           break;
 
         case State.MOVE:
@@ -43,6 +48,16 @@ const PlayingPage = () => {
           break;
 
         case State.GAME_OVER:
+          if (message.payload.winner === color) {
+            toast("You won", {
+              icon: "👏",
+            });
+          } else {
+            toast(`${color === "white" ? "Black" : "White"} has won the game`, {
+              icon: "🏳️",
+            });
+          }
+          console.log(color);
           setChess(new Chess());
           setGameBoard(chess.board());
           console.log(`${message.payload.winner} has won the game :)`);
@@ -65,6 +80,7 @@ const PlayingPage = () => {
 
   return (
     <div className={`PlayingPage ${startButton ? "side" : "center"}`}>
+      <Toaster />
       <PlayingBoard
         socket={socket}
         gameBoard={gameBoard}
@@ -77,19 +93,19 @@ const PlayingPage = () => {
       />
       {startButton && (
         <div className="rightHalf">
-          <div className="gameStartButton" onClick={() => initateGame()}>
-            {isClicked ? (
-              <ClipLoader
-                color={"36D9B8"}
-                loading={isClicked}
-                size={35}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            ) : (
-              "Play"
-            )}
-          </div>
+          {isClicked ? (
+            <ClipLoader
+              color={"36D9B8"}
+              loading={isClicked}
+              size={35}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            <div className="gameStartButton" onClick={() => initateGame()}>
+              Play
+            </div>
+          )}
         </div>
       )}
     </div>

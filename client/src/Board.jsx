@@ -1,6 +1,7 @@
 import React from "react";
 import "./board.css";
-import img from "./assets/board.jpeg";
+// import img from "./assets/board.jpeg";
+import img from "./assets/boardImg.png";
 import { useNavigate } from "react-router-dom";
 
 const Board = () => {

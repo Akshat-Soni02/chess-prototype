@@ -1,46 +1,112 @@
 .chessPage {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(29, 27, 27);
+  width: 100vw;
+  height: 100vh;
+  background: #000000;
+  font-family: "Poppins", sans-serif;
+  padding: 2rem;
+  color: #e4e4e4;
+  box-sizing: border-box;
+}
+
+.boardSide {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
 }
 
 .boardImg {
-  width: 75%;
+  width: 100%;
+  max-width: 750px;
   height: auto;
   border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
 }
 
 .gameStart {
-  /* background-color: rgb(67, 66, 66); */
-  height: 450px;
-  width: 400px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: #111111;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+  width: 100%;
+  max-width: 450px;
 }
 
 .headline {
-  font-size: 3rem;
-  color: aliceblue;
-  font-family: "Times New Roman", Times, serif;
+  font-size: 3.5rem;
+  color: #e4e4e4;
   text-align: center;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 1px;
+  line-height: 1.3;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
 }
 
 .playButton {
-  background-color: rgb(42, 120, 20);
+  background-color: #4caf50;
+  padding: 1.5rem 3rem;
+  font-size: 2.5rem;
+  color: #e4e4e4;
+  border-radius: 12px;
+  font-family: "Roboto", sans-serif;
+  border: none;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  cursor: pointer;
   text-align: center;
-  padding: 1.5rem;
-  font-size: 3rem;
-  color: aliceblue;
-  border-radius: 15px;
-  font-family: "Times New Roman", Times, serif;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .playButton:hover {
-  background-color: rgb(35, 102, 17);
-  cursor: pointer;
+  background-color: #388e3c;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.playButton:active {
+  transform: scale(0.98);
+  background-color: #2e7d32;
+}
+
+@media (max-width: 768px) {
+  .chessPage {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .boardSide {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .boardImg {
+    width: 90%;
+    max-width: none;
+  }
+
+  .gameStart {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .headline {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .playButton {
+    font-size: 2rem;
+    padding: 1.2rem 2.5rem;
+  }
 }

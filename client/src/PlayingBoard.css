@@ -1,19 +1,24 @@
 .PlayingBoard {
-  background-color: rgb(29, 27, 27);
+  background-color: #1d1b1b;
   width: 50vw;
   height: 100vh;
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 .chessBoard {
   display: grid;
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(8, 1fr);
-  width: 700px;
-  height: 700px;
-  border: 2px solid black;
+  width: 90%;
+  height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .row {
@@ -21,11 +26,13 @@
 }
 
 .square {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .square.light {
@@ -37,18 +44,25 @@
 }
 
 .piece {
-  height: 3.9rem;
+  height: 4rem;
   width: auto;
+  transition: transform 0.3s ease;
 }
 
 .piece:hover {
   cursor: grab;
+  transform: scale(1.1);
 }
 
 .piece:active {
   cursor: grabbing;
+  transform: scale(0.95);
 }
 
-/* .whitePiece {
-  color: white;
-} */
+.whitePiece {
+  filter: brightness(1.2);
+}
+
+.blackPiece {
+  filter: brightness(0.9);
+}

@@ -39,6 +39,23 @@ export class game {
 
     console.log("move is correct");
 
+    console.log(this.game.turn());
+    console.log(this.game.history().length);
+    const recipient =
+      this.game.history().length % 2 === 0
+        ? this.participant1
+        : this.participant2;
+
+    recipient.emit(
+      "message",
+      JSON.stringify({
+        type: states.MOVE,
+        payload: {
+          move,
+        },
+      })
+    );
+
     //checking for checks or mates or stales or draws
     const gameOver = this.game.isGameOver();
     if (gameOver) {
@@ -65,21 +82,5 @@ export class game {
 
       return;
     }
-    console.log(this.game.turn());
-    console.log(this.game.history().length);
-    const recipient =
-      this.game.history().length % 2 === 0
-        ? this.participant1
-        : this.participant2;
-
-    recipient.emit(
-      "message",
-      JSON.stringify({
-        type: states.MOVE,
-        payload: {
-          move,
-        },
-      })
-    );
   };
 }

@@ -3,25 +3,45 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  /* gap: 3rem; */
-  background-color: rgb(29, 27, 27);
+  justify-content: center;
+  background-color: #1d1b1b;
+  font-family: "Poppins", sans-serif;
+  color: #e4e4e4;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .center {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex: 1;
 }
 
 .gameStartButton {
-  /* background-color: transparent; */
-  font-size: 3rem;
-  color: white;
-  background-color: rgb(6, 161, 6);
-  border-radius: 10px;
-  padding: 1rem;
+  font-size: 2.5rem;
+  color: #e4e4e4;
+  background-color: #4caf50;
+  padding: 1.5rem 3rem;
+  border-radius: 12px;
+  font-family: "Roboto", sans-serif;
+  border: none;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .gameStartButton:hover {
-  cursor: pointer;
+  background-color: #388e3c;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gameStartButton:active {
+  transform: scale(0.98);
+  background-color: #2e7d32;
 }
 
 .rightHalf {
@@ -30,4 +50,27 @@
   align-items: center;
   width: 50vw;
   height: 100vh;
+  background-color: #111111;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .PlayingPage {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .rightHalf {
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+  }
+
+  .gameStartButton {
+    font-size: 2rem;
+    padding: 1rem 2rem;
+  }
 }
