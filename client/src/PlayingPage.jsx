@@ -4,12 +4,16 @@ import useSocket from "./assets/useSocket.jsx";
 import { Chess } from "chess.js";
 import "./PlayingPage.css";
 import { State } from "./State.jsx";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const PlayingPage = () => {
   const socket = useSocket();
   const [chess, setChess] = useState(new Chess());
   const [gameBoard, setGameBoard] = useState(chess.board());
   const [init, setInit] = useState(false);
+  const [turn, setTurn] = useState(false);
+  const [startButton, setStartButton] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     if (!socket) return;
@@ -21,20 +25,21 @@ const PlayingPage = () => {
           // setChess(new Chess());
           // setGameBoard(chess.board());
           console.log(`Game started your color is ${message.color}`);
+          if (message.color === "white") setTurn(true);
           setInit(true);
+          setStartButton(false);
+          setIsClicked(false);
           break;
 
         case State.MOVE:
           console.log(`move came to this color`);
-          console.log(chess.board());
+          // console.log("intial board" + chess.board());
           const move = message.payload.move;
-          // const newChess = new Chess(chess.fen());
-          // newChess.move(message.payload.move);
-          // setChess(newChess);
           chess.move(move);
+          console.log(chess.board());
           setGameBoard(chess.board());
+          setTurn(true);
           console.log(`Move received from server: ${(move.from, move.to)}`);
-          // console.log(chess.board());
           break;
 
         case State.GAME_OVER:
@@ -55,10 +60,11 @@ const PlayingPage = () => {
 
   const initateGame = () => {
     socket.send(JSON.stringify({ type: State.INIT_GAME }));
+    setIsClicked(true);
   };
 
   return (
-    <div className="PlayingPage">
+    <div className={`PlayingPage ${startButton ? "side" : "center"}`}>
       <PlayingBoard
         socket={socket}
         gameBoard={gameBoard}
@@ -66,12 +72,26 @@ const PlayingPage = () => {
         chess={chess}
         setChess={setChess}
         init={init}
+        turn={turn}
+        setTurn={setTurn}
       />
-      <div className="rightHalf">
-        <div className="gameStartButton" onClick={() => initateGame()}>
-          Play
+      {startButton && (
+        <div className="rightHalf">
+          <div className="gameStartButton" onClick={() => initateGame()}>
+            {isClicked ? (
+              <ClipLoader
+                color={"36D9B8"}
+                loading={isClicked}
+                size={35}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            ) : (
+              "Play"
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

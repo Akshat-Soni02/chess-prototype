@@ -21,7 +21,7 @@ export class gameManager {
 
   addPlayer = (socket) => {
     console.log("here to add a player");
-    socket.on("message", (data) => {
+    socket.on("message", (data, callback) => {
       const message = JSON.parse(data.toString());
       console.log(message);
 
@@ -48,7 +48,11 @@ export class gameManager {
         );
         if (running_game) {
           console.log("running game found to make a move");
-          running_game.makeMove(message.move);
+          const res = running_game.makeMove(message.move);
+          // if (!res) {
+          //   callback(null);
+          // }
+          // callback("ok move");
         } else {
           console.log("move made on a non running game");
           return;

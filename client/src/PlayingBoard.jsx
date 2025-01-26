@@ -3,33 +3,74 @@ import "./PlayingBoard.css";
 import { Chess } from "chess.js";
 import { io } from "socket.io-client";
 import { State } from "./State";
+import pw from "./assets/pw.svg"; // White pawn
+import pb from "./assets/pb.svg"; // Black pawn
+import kw from "./assets/kw.svg"; // White king
+import kb from "./assets/kb.svg"; // Black king
+import qw from "./assets/qw.svg"; // White queen
+import qb from "./assets/qb.svg"; // Black queen
+import rw from "./assets/rw.svg"; // White rook
+import rb from "./assets/rb.svg"; // Black rook
+import bw from "./assets/bw.svg"; // White bishop
+import bb from "./assets/bb.svg"; // Black bishop
+import nw from "./assets/nw.svg"; // White knight
+import nb from "./assets/nb.svg"; // Black knight
 
 const PlayingBoard = ({
   socket,
   gameBoard,
   setGameBoard,
   chess,
-  setChess,
   init,
+  turn,
+  setTurn,
 }) => {
-  // const [draggedPiece, setDraggedPiece] = useState(null);
   const [from, setFrom] = useState(null);
+  const pieceImages = {
+    pw, // Pawn white
+    pb, // Pawn black
+    kw, // King white
+    kb, // King black
+    qw, // Queen white
+    qb, // Queen black
+    rw, // Rook white
+    rb, // Rook black
+    bw, // Bishop white
+    bb, // Bishop black
+    nw, // Knight white
+    nb, // Knight black
+  };
 
   const onDragStart = (e, sq) => {
-    // if (piece === null) return;
-    // setDraggedPiece(piece);
     setFrom(sq);
     e.dataTransfer.effectAllowed = "move";
+    e.target.style.cursor = "grabbing";
   };
 
   const onDrop = async (e, sq) => {
     e.preventDefault();
+    e.target.style.cursor = "grab";
+    // console.log(chess.board());
+    if (!turn) {
+      console.log("not your turn");
+      return;
+    }
     console.log(`from ${from} dropped on ${sq}`);
     if (!init) {
       console.log("Game not started yet!!");
       return;
     }
-    // var res = "";
+
+    try {
+      const moveResult = chess.move({ from, to: sq });
+      if (!moveResult) {
+        console.log(`Invalid move: from ${from} to ${sq}`);
+        return;
+      }
+    } catch (error) {
+      console.log("wrong move");
+      return;
+    }
 
     try {
       socket.emit(
@@ -43,29 +84,18 @@ const PlayingBoard = ({
         })
       );
 
-      const moveResult = chess.move({ from, to: sq });
-      if (!moveResult) {
-        console.log(`Invalid move: from ${from} to ${sq}`);
-        return;
-      }
-
       // const movedChess = new Chess(chess.fen());
       // setChess(movedChess);
 
       console.log(`${from} to ${sq}`);
 
-      // res = chess.move({ from, to: sq });
       console.log("Attempting to update local chess state...");
       setGameBoard(chess.board());
-      // console.log(chess.board());
+      setTurn(false);
     } catch (error) {
-      // console.log(res);
       console.log("Error from server while dropping piece");
     }
 
-    // const newChess = new Chess(chess.fen());
-    // const result = newChess.move({ from, to: sq });
-    // setChess(newChess);
     setFrom(null);
   };
 
@@ -80,7 +110,8 @@ const PlayingBoard = ({
       for (let j = 0; j < 8; j++) {
         const isDark = (i + j) % 2 === 1;
         const sq = String.fromCharCode(97 + j) + String(8 - i);
-        // console.log(sq);
+        const piece = gameBoard[i][j];
+
         row.push(
           <div
             className={`square ${isDark ? "dark" : "light"}`}
@@ -88,14 +119,16 @@ const PlayingBoard = ({
             onDrop={(e) => onDrop(e, sq)}
             onDragOver={onDragOver}
           >
-            {gameBoard[i][j] && (
-              <span
-                className="piece"
+            {piece && (
+              <img
+                className={`piece ${
+                  piece.color === "w" ? "whitePiece" : "blackPiece"
+                }`}
                 draggable
                 onDragStart={(e) => onDragStart(e, sq)}
-              >
-                {gameBoard[i][j].type}
-              </span>
+                src={pieceImages[`${piece.type}${piece.color}`]}
+                alt={`${piece.type}${piece.color}`}
+              />
             )}
           </div>
         );
@@ -106,7 +139,6 @@ const PlayingBoard = ({
         </div>
       );
     }
-    // console.log(gameBoard);
     return board;
   };
 

@@ -7,6 +7,10 @@
   background-color: rgb(29, 27, 27);
 }
 
+.center {
+  justify-content: center;
+}
+
 .gameStartButton {
   /* background-color: transparent; */
   font-size: 3rem;
